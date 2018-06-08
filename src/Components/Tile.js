@@ -1,5 +1,4 @@
 import React from 'react';
-
 import Mine from './Mine';
 import '../styles.css';
 
@@ -8,7 +7,8 @@ export default class Tile extends React.Component {
         super(props);
         this.state = {
             isHidden: true,
-            tileValue: Math.floor(Math.random() * 9) + 1,
+            mineGenerator: Math.floor(Math.random() * 9) + 1,
+
         };
         this.handleClick = this.handleClick.bind(this);
     }
@@ -19,21 +19,21 @@ export default class Tile extends React.Component {
     }
 
     render() {
-        if (this.state.tileValue === 9) {
+        if (this.props.value === 9) {
             return (
                 <Mine />
             );
         } else {
             return (
-                <div className="tile" onClick={this.handleClick}>
-                    {this.state.isHidden ?
-                        <span className="tileCloak">{this.state.tileValue}</span>
-                        :
-                        <span>{this.state.tileValue}</span>}
+                <div onClick={this.handleClick}>
+                {
+                    this.state.isHidden ?
+                    <div className="tile"><span className="tile-hidden">{this.props.value}</span></div>
+                    :
+                    <div className="tile tile-reveal">{this.props.value}</div>
+                }
                 </div>
             );
         }
-
-
     }
 }

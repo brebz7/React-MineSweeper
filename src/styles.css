@@ -11,15 +11,19 @@
     color: blue;
     font-weight: bold;
     font-size: 25px;
-    background-color: #CECECE;
+    background-color: rgb(130, 128, 133);
     border: 2px solid black;
     border-radius: 5px;
     
     user-select: none;
 }
 
-.tileCloak {
+.tile-hidden {
     display: none;
+}
+
+.tile-reveal {
+    background-color: #CECECE;
 }
 
 .mine {
@@ -40,10 +44,11 @@
     height: 50px;
     box-sizing: border-box;
 
-    background-color: #CECECE;
+    background-color: rgb(74, 31, 173);
     border: 2px solid black;
     border-radius: 5px;
 }
+
 
 .grid {
     margin: 0 auto;
