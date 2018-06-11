@@ -48,15 +48,35 @@ class Grid extends React.Component {
         return gridValues;
     }
 
-    handleClick(i) {
-        this.setState(prevState => ({
-            isHidden: prevState.isHidden.map((hideStatus, index) => {
-                if (index === i)
-                    return !hideStatus;
-                else
-                    return hideStatus;
-            })
-        }));
+    handleClick(index) {
+        if (this.state.gridValues[index] !== null)
+            this.setState(prevState => ({
+                isHidden: prevState.isHidden.map((hideStatus, indexHide, HideStatusArray) => {
+                    if (indexHide === index)
+                        return false;
+                    else
+                        return hideStatus;
+                })
+            }));
+        if (this.state.gridValues[index] === null)
+            this.setState(prevState => ({
+                isHidden: prevState.isHidden.map((hideStatus, indexHide, HideStatusArray) => {
+                    if ((indexHide + 10) === index) {
+                        HideStatusArray[indexHide + 1] = false;
+                        HideStatusArray[indexHide + 2] = false;
+                        HideStatusArray[indexHide + 9] = false;
+                        HideStatusArray[indexHide + 10] = false;
+                        HideStatusArray[indexHide + 11] = false;
+                        HideStatusArray[indexHide + 18] = false;
+                        HideStatusArray[indexHide + 19] = false;
+                        HideStatusArray[indexHide + 20] = false;
+                        return false;   //current iteration
+                    }
+                    else
+                        return hideStatus;
+
+                })
+            }));
     }
 
     render() {
