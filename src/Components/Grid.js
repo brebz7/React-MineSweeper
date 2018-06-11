@@ -1,12 +1,15 @@
 import React from 'react';
 import Tile from './Tile';
+import Mine from './Mine';
 
 class Grid extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             gridValues: this.spawnGrid(),
+            isHidden: Array(81).fill(true)
         }
+
     }
 
     spawnGrid() {
@@ -39,22 +42,36 @@ class Grid extends React.Component {
                         gridValues[(row + 1) * 9 + col + 1] += 1;
                     //BOTTOM LEFT
                     if (gridValues[(row + 1) * 9 + col - 1] !== 9 && col !== 0 && row !== 8)
-                    gridValues[(row + 1) * 9 + col - 1] += 1;
+                        gridValues[(row + 1) * 9 + col - 1] += 1;
                 }
             }
         return gridValues;
     }
 
-    render() {
+    handleClick(i) {
+        this.setState(prevState => ({
+            isHidden: prevState.isHidden.map((hideStatus, index) => {
+                if (index === i)
+                    return !hideStatus;
+                else
+                    return hideStatus;
+            })
+        }));
+    }
 
+    render() {
         return (
             <div className="grid">
                 {
-                    this.state.gridValues.map((tile, index) => <Tile key={index} value={this.state.gridValues[index]} />)
+                    this.state.gridValues.map((tileValue, index) => {
+                        if (tileValue === 9)
+                            return <Mine key={index} onClick={() => this.handleClick(index)} isHidden={this.state.isHidden[index]} />
+                        else
+                            return <Tile key={index} value={tileValue} onClick={() => this.handleClick(index)} isHidden={this.state.isHidden[index]} />
+                    })
                 }
             </div>
         );
     }
 }
-
 export default Grid;
