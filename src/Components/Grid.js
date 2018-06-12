@@ -58,7 +58,8 @@ class Grid extends React.Component {
                         return hideStatus;
                 })
             }));
-        if (this.state.gridValues[index] === null)
+
+        if (this.state.gridValues[index] === null && index > 8)
             this.setState(prevState => ({
                 isHidden: prevState.isHidden.map((hideStatus, indexHide, HideStatusArray) => {
                     if ((indexHide + 10) === index) {
@@ -74,9 +75,61 @@ class Grid extends React.Component {
                     }
                     else
                         return hideStatus;
-
                 })
             }));
+        if (this.state.gridValues[index] === null && index === 0)
+            this.setState(prevState => ({
+                isHidden: prevState.isHidden.map((hideStatus, indexHide, HideStatusArray) => {
+                    if (indexHide === 0) {
+                        HideStatusArray[indexHide + 1] = false;
+
+                        HideStatusArray[indexHide + 9] = false;
+                        HideStatusArray[indexHide + 10] = false;
+                        return false;
+                    }
+                    else
+                        return hideStatus;
+
+
+                })
+            }))
+        if (this.state.gridValues[index] === null && index === 8)
+            this.setState(prevState => ({
+                isHidden: prevState.isHidden.map((hideStatus, indexHide, HideStatusArray) => {
+                    if (indexHide === 7 || indexHide === 8 || indexHide === 16 || indexHide === 17)
+                        return false;
+                    else
+                        return hideStatus;
+                })
+            }))
+        if (this.state.gridValues[index] === null && index > 0 && index < 8)
+            this.setState(prevState => ({
+                isHidden: prevState.isHidden.map((hideStatus, indexHide, HideStatusArray) => {
+                    if (index === 1 && (indexHide === 0 || indexHide === 1 || indexHide === 2 || indexHide === 9 || indexHide === 10 || indexHide === 11)) {
+                        return false;
+                    }
+                    else if (index === 2 && (indexHide === 1 || indexHide === 2 || indexHide === 3 || indexHide === 10 || indexHide === 11 || indexHide === 12)) {
+                        return false;
+                    }
+                    else if (index === 3 && (indexHide === 2 || indexHide === 3 || indexHide === 4 || indexHide === 11 || indexHide === 12 || indexHide === 13) ) {
+                        return false;
+                    }
+                    else if (index === 4 && (indexHide === 3 || indexHide === 4 || indexHide === 5 || indexHide === 12 || indexHide === 13 || indexHide === 14) ) {
+                        return false;
+                    }
+                    else if (index === 5 && (indexHide === 4 || indexHide === 5 || indexHide === 6 || indexHide === 13 || indexHide === 14 || indexHide === 15) ) {
+                        return false;
+                    }
+                    else if (index === 6 && (indexHide === 5 || indexHide === 6 || indexHide === 7 || indexHide === 14 || indexHide === 15 || indexHide === 16) ) {
+                        return false;
+                    }
+                    else if (index === 7 && (indexHide === 6 || indexHide === 7 || indexHide === 8 || indexHide === 15 || indexHide === 16 || indexHide === 17) ) {
+                        return false;
+                    }
+                    else
+                        return hideStatus;
+                })
+            }))
     }
 
     render() {
@@ -85,9 +138,18 @@ class Grid extends React.Component {
                 {
                     this.state.gridValues.map((tileValue, index) => {
                         if (tileValue === 9)
-                            return <Mine key={index} onClick={() => this.handleClick(index)} isHidden={this.state.isHidden[index]} />
+                            return <Mine
+                                key={index}
+                                onClick={() => this.handleClick(index)}
+                                isHidden={this.state.isHidden[index]}
+                            />
                         else
-                            return <Tile key={index} value={tileValue} onClick={() => this.handleClick(index)} isHidden={this.state.isHidden[index]} />
+                            return <Tile
+                                key={index}
+                                value={tileValue}
+                                onClick={() => this.handleClick(index)}
+                                isHidden={this.state.isHidden[index]}
+                            />
                     })
                 }
             </div>
